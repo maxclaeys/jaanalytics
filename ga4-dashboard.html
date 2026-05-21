@@ -59,8 +59,9 @@
       width: 64px; height: 64px;
       background: linear-gradient(135deg, var(--accent), #a01020);
       border-radius: 16px; display: flex; align-items: center;
-      justify-content: center; font-size: 32px; margin: 0 auto 20px;
+      justify-content: center; margin: 0 auto 20px;
       box-shadow: 0 4px 16px rgba(214,40,57,0.3);
+      overflow: hidden;
     }
     .auth-title { font-size: 22px; font-weight: 800; margin-bottom: 8px; }
     .auth-sub   { font-size: 14px; color: var(--text-muted); margin-bottom: 32px; line-height: 1.5; }
@@ -88,8 +89,9 @@
       width: 38px; height: 38px;
       background: linear-gradient(135deg, var(--accent), #a01020);
       border-radius: 10px; display: flex; align-items: center;
-      justify-content: center; font-size: 19px; flex-shrink: 0;
+      justify-content: center; flex-shrink: 0;
       box-shadow: 0 2px 8px rgba(214,40,57,0.35);
+      overflow: hidden;
     }
     .header-title { font-size: 16px; font-weight: 700; letter-spacing: -0.3px; }
     .header-sub   { font-size: 11px; color: var(--text-muted); margin-top: 1px; }
@@ -253,6 +255,28 @@
     .spinner-white { width: 12px; height: 12px; border: 2px solid rgba(255,255,255,0.35); border-top-color: #fff; border-radius: 50%; animation: spin 0.75s linear infinite; }
     @keyframes spin { to { transform: rotate(360deg); } }
 
+    /* ── CATEGORY FILTER ────────────────────────────────────── */
+    .category-select {
+      padding: 4px 10px; border: 1px solid var(--border);
+      background: var(--surface-2); color: var(--text);
+      border-radius: 8px; font-size: 12px; font-weight: 600;
+      cursor: pointer; outline: none; transition: border-color 0.15s;
+    }
+    .category-select:focus { border-color: var(--accent); }
+
+    /* ── ADS TAB BADGES ─────────────────────────────────────── */
+    .platform-badge {
+      display: inline-flex; align-items: center; gap: 4px;
+      padding: 2px 8px; border-radius: 10px; font-size: 11px; font-weight: 600;
+    }
+    .platform-google { background: #e8f0fe; color: #1a73e8; }
+    .platform-meta   { background: #e7f3ff; color: #1877f2; }
+    .platform-other  { background: var(--surface-2); color: var(--text-muted); }
+    @media (prefers-color-scheme: dark) {
+      .platform-google { background: #1a2f5e; color: #8ab4f8; }
+      .platform-meta   { background: #1a2f5e; color: #7ba9f0; }
+    }
+
     /* ── ADD REPORT TAB ──────────────────────────────────────── */
     .add-report-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 16px; margin-bottom: 20px; }
     .report-form {
@@ -304,7 +328,29 @@
 <!-- AUTH -->
 <div id="authScreen">
   <div class="auth-card">
-    <div class="auth-logo">🗾</div>
+    <div class="auth-logo">
+      <!-- Daruma / Tengu face SVG -->
+      <svg viewBox="0 0 56 56" width="56" height="56" xmlns="http://www.w3.org/2000/svg">
+        <!-- White oval face -->
+        <ellipse cx="28" cy="32" rx="16" ry="18" fill="rgba(255,255,255,0.93)"/>
+        <!-- Left eyebrow -->
+        <path d="M13 24 Q18 18.5 23 22" stroke="rgba(255,255,255,0.97)" stroke-width="3.2" fill="none" stroke-linecap="round"/>
+        <!-- Right eyebrow -->
+        <path d="M33 22 Q38 18.5 43 24" stroke="rgba(255,255,255,0.97)" stroke-width="3.2" fill="none" stroke-linecap="round"/>
+        <!-- Left eye -->
+        <circle cx="22" cy="30" r="4.5" fill="#1a0808"/>
+        <circle cx="23.5" cy="28.5" r="1.5" fill="white"/>
+        <!-- Right eye -->
+        <circle cx="34" cy="30" r="4.5" fill="#1a0808"/>
+        <circle cx="35.5" cy="28.5" r="1.5" fill="white"/>
+        <!-- Nose bridge / septum hint -->
+        <ellipse cx="28" cy="36" rx="2.5" ry="2" fill="rgba(200,140,140,0.5)"/>
+        <!-- Mouth smile -->
+        <path d="M22 43 Q28 47 34 43" stroke="rgba(120,20,20,0.7)" stroke-width="2" fill="none" stroke-linecap="round"/>
+        <!-- Beard strokes -->
+        <path d="M18 46 Q28 50.5 38 46" stroke="rgba(255,255,255,0.55)" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+      </svg>
+    </div>
     <div class="auth-title">Japan Adventurer</div>
     <div class="auth-sub">Sign in with your Google account to load your GA4 analytics data.</div>
     <button class="sign-in-btn" id="signInBtn" onclick="signIn()">
@@ -321,7 +367,21 @@
   <!-- HEADER -->
   <header class="header">
     <div class="header-left">
-      <div class="logo">🗾</div>
+      <div class="logo">
+        <!-- Daruma / Tengu face SVG (header size) -->
+        <svg viewBox="0 0 38 38" width="38" height="38" xmlns="http://www.w3.org/2000/svg">
+          <ellipse cx="19" cy="22" rx="10.5" ry="12" fill="rgba(255,255,255,0.92)"/>
+          <path d="M9 16.5 Q12.5 13 16 15.5" stroke="rgba(255,255,255,0.97)" stroke-width="2.2" fill="none" stroke-linecap="round"/>
+          <path d="M22 15.5 Q25.5 13 29 16.5" stroke="rgba(255,255,255,0.97)" stroke-width="2.2" fill="none" stroke-linecap="round"/>
+          <circle cx="15" cy="21" r="3" fill="#1a0808"/>
+          <circle cx="16" cy="19.8" r="1" fill="white"/>
+          <circle cx="23" cy="21" r="3" fill="#1a0808"/>
+          <circle cx="24" cy="19.8" r="1" fill="white"/>
+          <ellipse cx="19" cy="24.5" rx="1.7" ry="1.3" fill="rgba(200,140,140,0.45)"/>
+          <path d="M15 29 Q19 31.5 23 29" stroke="rgba(120,20,20,0.65)" stroke-width="1.4" fill="none" stroke-linecap="round"/>
+          <path d="M12.5 31 Q19 33.5 25.5 31" stroke="rgba(255,255,255,0.45)" stroke-width="1.2" fill="none" stroke-linecap="round"/>
+        </svg>
+      </div>
       <div>
         <div class="header-title">Japan Adventurer</div>
         <div class="header-sub">GA4 Analytics · Property 497521458</div>
@@ -358,6 +418,7 @@
     <button class="tab-btn" data-tab="audience"><span class="tab-icon">👥</span> Audience</button>
     <button class="tab-btn" data-tab="acquisition"><span class="tab-icon">📡</span> Acquisition</button>
     <button class="tab-btn" data-tab="content"><span class="tab-icon">📄</span> Content</button>
+    <button class="tab-btn" data-tab="ads"><span class="tab-icon">📢</span> Ads</button>
     <button class="tab-btn" data-tab="addreport"><span class="tab-icon">➕</span> Add Report</button>
   </nav>
 
@@ -442,7 +503,7 @@
           <div id="sourceMediumWrap"><div class="placeholder"><div class="spinner"></div> Loading…</div></div>
         </div>
         <div class="card">
-          <div class="card-header"><span class="card-title">Organic Search Keywords</span><span class="card-badge">Top 12 · Search Console</span></div>
+          <div class="card-header"><span class="card-title">Organic Sources</span><span class="card-badge">Top 12 · Organic Medium</span></div>
           <div id="organicWrap"><div class="placeholder"><div class="spinner"></div> Loading…</div></div>
         </div>
       </div>
@@ -464,6 +525,48 @@
         <div class="card">
           <div class="card-header"><span class="card-title">Top Events</span><span class="card-badge">Top 20 by Event Count</span></div>
           <div id="eventsWrap"><div class="placeholder"><div class="spinner"></div> Loading…</div></div>
+        </div>
+      </div>
+      <!-- Category breakdown -->
+      <div class="row-1">
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title">Pages by Category</span>
+            <div style="display:flex;align-items:center;gap:8px">
+              <span class="card-badge" id="categoryBadge">All Pages</span>
+              <select id="categoryFilter" class="category-select" onchange="filterContentCategory(this.value)">
+                <option value="all">All Pages</option>
+                <option value="tour">Tours  (/tour/)</option>
+                <option value="poi">POIs  (/points-of-interest/)</option>
+                <option value="blog">Blog  (/blog/)</option>
+              </select>
+            </div>
+          </div>
+          <div id="categoryTableWrap"><div class="placeholder"><div class="spinner"></div> Loading…</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══════════ TAB: ADS ═══════════ -->
+    <div class="tab-panel" id="tab-ads">
+      <div class="row-2">
+        <div class="card">
+          <div class="card-header"><span class="card-title">Campaign Performance</span><span class="card-badge">Sessions by Campaign</span></div>
+          <div class="chart-wrap chart-h260" id="adsCampaignChartWrap"><div class="placeholder"><div class="spinner"></div> Loading…</div></div>
+        </div>
+        <div class="card">
+          <div class="card-header"><span class="card-title">Campaign Breakdown</span><span class="card-badge">CPC &amp; Paid Social</span></div>
+          <div id="adsCampaignTableWrap"><div class="placeholder"><div class="spinner"></div> Loading…</div></div>
+        </div>
+      </div>
+      <div class="row-eq">
+        <div class="card">
+          <div class="card-header"><span class="card-title">Paid Source / Medium</span><span class="card-badge">Top 12</span></div>
+          <div id="adsPaidSourceWrap"><div class="placeholder"><div class="spinner"></div> Loading…</div></div>
+        </div>
+        <div class="card">
+          <div class="card-header"><span class="card-title">Platform Split</span><span class="card-badge">Google vs Meta</span></div>
+          <div id="adsPlatformWrap"><div class="placeholder"><div class="spinner"></div> Loading…</div></div>
         </div>
       </div>
     </div>
@@ -489,6 +592,7 @@
             <option value="sessionSourceMedium">Source / Medium</option>
             <option value="sessionSource">Source</option>
             <option value="sessionMedium">Medium</option>
+            <option value="sessionCampaignName">Campaign Name</option>
             <option value="eventName">Event Name</option>
             <option value="date">Date</option>
             <option value="week">Week</option>
@@ -547,6 +651,9 @@ let tabLoaded    = {};
 let charts       = {};
 let pendingLoad  = false;
 let customReports = [];
+
+// Content category state
+let contentCategoryData = [];  // cached rows from the category API call
 
 // ── DATE RANGE HELPER ───────────────────────────────────────────────────────
 function getDateRange() {
@@ -936,7 +1043,7 @@ async function loadAcquisition(token) {
     </tbody></table>`;
   } else document.getElementById('sourceMediumWrap').innerHTML = '<div class="placeholder">No data</div>';
 
-  // Organic sources
+  // Organic sources (correctly labelled now)
   const orgRows = organicR.rows||[];
   if (orgRows.length) {
     document.getElementById('organicWrap').innerHTML = `<table class="data-table"><thead><tr><th>Source</th><th class="num">Sessions</th><th class="num">Users</th></tr></thead><tbody>
@@ -952,13 +1059,19 @@ async function loadAcquisition(token) {
 // ── CONTENT TAB ───────────────────────────────────────────────────────────────
 async function loadContent(token) {
   const dr = getDateRange();
-  ['pagesWrap','landingWrap','eventsWrap'].forEach(id=>{
+  ['pagesWrap','landingWrap','eventsWrap','categoryTableWrap'].forEach(id=>{
     document.getElementById(id).innerHTML = '<div class="placeholder"><div class="spinner"></div> Loading…</div>';
   });
-  const [pagesR, landingR, eventsR] = await Promise.all([
+  contentCategoryData = [];
+  document.getElementById('categoryFilter').value = 'all';
+  document.getElementById('categoryBadge').textContent = 'All Pages';
+
+  const [pagesR, landingR, eventsR, categoryR] = await Promise.all([
     ga4(token, { dateRanges:[dr], dimensions:[{name:'pagePath'}], metrics:[{name:'screenPageViews'},{name:'activeUsers'},{name:'engagementRate'},{name:'averageSessionDuration'}], orderBys:[{metric:{metricName:'screenPageViews'},desc:true}], limit:15 }),
     ga4(token, { dateRanges:[dr], dimensions:[{name:'landingPage'}], metrics:[{name:'sessions'},{name:'totalUsers'},{name:'bounceRate'},{name:'engagementRate'}], orderBys:[{metric:{metricName:'sessions'},desc:true}], limit:15 }),
-    ga4(token, { dateRanges:[dr], dimensions:[{name:'eventName'}], metrics:[{name:'eventCount'},{name:'totalUsers'}], orderBys:[{metric:{metricName:'eventCount'},desc:true}], limit:20 })
+    ga4(token, { dateRanges:[dr], dimensions:[{name:'eventName'}], metrics:[{name:'eventCount'},{name:'totalUsers'}], orderBys:[{metric:{metricName:'eventCount'},desc:true}], limit:20 }),
+    // Fetch top 200 pages for category breakdown (client-side filtered)
+    ga4(token, { dateRanges:[dr], dimensions:[{name:'pagePath'}], metrics:[{name:'screenPageViews'},{name:'activeUsers'},{name:'engagementRate'},{name:'averageSessionDuration'}], orderBys:[{metric:{metricName:'screenPageViews'},desc:true}], limit:200 })
   ]);
 
   // Top pages
@@ -1004,6 +1117,198 @@ async function loadContent(token) {
       </tr>`).join('')}
     </tbody></table>`;
   } else document.getElementById('eventsWrap').innerHTML = '<div class="placeholder">No data</div>';
+
+  // Category breakdown — cache and render
+  contentCategoryData = (categoryR.rows||[]).map(r => ({
+    path:    r.dimensionValues[0].value,
+    views:   +r.metricValues[0].value,
+    users:   +r.metricValues[1].value,
+    engRate: +r.metricValues[2].value,
+    avgTime: +r.metricValues[3].value,
+  }));
+  renderCategoryTable('all');
+}
+
+// ── CONTENT CATEGORY FILTER ───────────────────────────────────────────────────
+const CATEGORY_LABELS = { all: 'All Pages', tour: 'Tours', poi: 'POIs', blog: 'Blog' };
+const CATEGORY_PATTERNS = { tour: '/tour/', poi: '/points-of-interest/', blog: '/blog/' };
+
+function filterContentCategory(category) {
+  document.getElementById('categoryBadge').textContent = CATEGORY_LABELS[category] || 'All Pages';
+  renderCategoryTable(category);
+}
+
+function renderCategoryTable(category) {
+  const wrap = document.getElementById('categoryTableWrap');
+  if (!contentCategoryData.length) {
+    wrap.innerHTML = '<div class="placeholder">No data</div>';
+    return;
+  }
+  const pattern = CATEGORY_PATTERNS[category];
+  const filtered = pattern
+    ? contentCategoryData.filter(r => r.path.includes(pattern))
+    : contentCategoryData;
+
+  if (!filtered.length) {
+    wrap.innerHTML = `<div class="placeholder">No ${CATEGORY_LABELS[category] || category} pages found in this period</div>`;
+    return;
+  }
+  const max = filtered[0].views;
+  wrap.innerHTML = `<table class="data-table"><thead><tr>
+    <th style="width:30px">#</th><th>Page</th>
+    <th class="num">Views</th><th class="num">Users</th>
+    <th class="num">Eng. Rate</th><th class="num">Avg Time</th>
+  </tr></thead><tbody>
+    ${filtered.map((r,i)=>`<tr>
+      <td><span class="rank-badge${i<3?' top3':''}">${i+1}</span></td>
+      <td><span class="page-path" title="${r.path}">${r.path}</span></td>
+      <td class="num">${fmtNum(r.views)}<div class="bar-vis"><div class="bar-vis-fill" style="width:${Math.round((r.views/max)*100)}%"></div></div></td>
+      <td class="num">${fmtNum(r.users)}</td>
+      <td class="num">${fmtPct(r.engRate)}</td>
+      <td class="num">${fmtDur(r.avgTime)}</td>
+    </tr>`).join('')}
+  </tbody></table>`;
+}
+
+// ── ADS TAB ───────────────────────────────────────────────────────────────────
+async function loadAds(token) {
+  const dr = getDateRange();
+  ['adsCampaignChartWrap','adsCampaignTableWrap','adsPaidSourceWrap','adsPlatformWrap'].forEach(id=>{
+    document.getElementById(id).innerHTML = '<div class="placeholder"><div class="spinner"></div> Loading…</div>';
+  });
+
+  // Filter: medium = cpc OR paid social OR contains "paid"
+  const paidFilter = {
+    orGroup: {
+      expressions: [
+        { filter: { fieldName:'sessionMedium', stringFilter:{ matchType:'EXACT', value:'cpc' } } },
+        { filter: { fieldName:'sessionMedium', stringFilter:{ matchType:'EXACT', value:'paid social' } } },
+        { filter: { fieldName:'sessionMedium', stringFilter:{ matchType:'CONTAINS', value:'paid' } } }
+      ]
+    }
+  };
+
+  const [campaignR, sourceMedR, platformR] = await Promise.all([
+    ga4(token, {
+      dateRanges:[dr],
+      dimensions:[{name:'sessionCampaignName'}],
+      metrics:[{name:'sessions'},{name:'totalUsers'},{name:'engagementRate'},{name:'bounceRate'}],
+      orderBys:[{metric:{metricName:'sessions'},desc:true}],
+      limit:15,
+      dimensionFilter: paidFilter
+    }),
+    ga4(token, {
+      dateRanges:[dr],
+      dimensions:[{name:'sessionSourceMedium'}],
+      metrics:[{name:'sessions'},{name:'totalUsers'},{name:'bounceRate'}],
+      orderBys:[{metric:{metricName:'sessions'},desc:true}],
+      limit:12,
+      dimensionFilter: paidFilter
+    }),
+    ga4(token, {
+      dateRanges:[dr],
+      dimensions:[{name:'sessionSource'}],
+      metrics:[{name:'sessions'},{name:'totalUsers'}],
+      orderBys:[{metric:{metricName:'sessions'},desc:true}],
+      limit:20,
+      dimensionFilter: paidFilter
+    })
+  ]);
+
+  // Campaign bar chart
+  const campRows = campaignR.rows||[];
+  const filteredCamp = campRows.filter(r => r.dimensionValues[0].value !== '(not set)');
+  if (filteredCamp.length) {
+    document.getElementById('adsCampaignChartWrap').innerHTML = '<canvas id="adsCampaignCanvas"></canvas>';
+    makeBarChart('adsCampaignCanvas','adsCampaign',
+      filteredCamp.map(r => r.dimensionValues[0].value),
+      [{ label:'Sessions', data:filteredCamp.map(r=>+r.metricValues[0].value), backgroundColor:PALETTE.slice(0,filteredCamp.length), borderRadius:4 }],
+      { horizontal:true, legend:false }
+    );
+  } else {
+    document.getElementById('adsCampaignChartWrap').innerHTML = '<div class="placeholder">No paid campaign data in this period</div>';
+  }
+
+  // Campaign table
+  if (campRows.length) {
+    const maxS = +campRows[0].metricValues[0].value;
+    document.getElementById('adsCampaignTableWrap').innerHTML = `<table class="data-table"><thead><tr>
+      <th style="width:30px">#</th><th>Campaign</th>
+      <th class="num">Sessions</th><th class="num">Users</th>
+      <th class="num">Eng. Rate</th><th class="num">Bounce</th>
+    </tr></thead><tbody>
+      ${campRows.map((r,i)=>`<tr>
+        <td><span class="rank-badge${i<3?' top3':''}">${i+1}</span></td>
+        <td style="max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:12px">${r.dimensionValues[0].value}</td>
+        <td class="num">${fmtNum(r.metricValues[0].value)}<div class="bar-vis"><div class="bar-vis-fill" style="width:${Math.round((+r.metricValues[0].value/maxS)*100)}%"></div></div></td>
+        <td class="num">${fmtNum(r.metricValues[1].value)}</td>
+        <td class="num">${fmtPct(r.metricValues[2].value)}</td>
+        <td class="num">${fmtPct(r.metricValues[3].value)}</td>
+      </tr>`).join('')}
+    </tbody></table>`;
+  } else {
+    document.getElementById('adsCampaignTableWrap').innerHTML = '<div class="placeholder">No campaign data in this period</div>';
+  }
+
+  // Paid Source/Medium table
+  const smRows = sourceMedR.rows||[];
+  if (smRows.length) {
+    document.getElementById('adsPaidSourceWrap').innerHTML = `<table class="data-table"><thead><tr>
+      <th>Source / Medium</th><th class="num">Sessions</th><th class="num">Users</th><th class="num">Bounce</th>
+    </tr></thead><tbody>
+      ${smRows.map((r,i)=>`<tr>
+        <td><span class="rank-badge${i<3?' top3':''}" style="margin-right:6px">${i+1}</span>${r.dimensionValues[0].value}</td>
+        <td class="num">${fmtNum(r.metricValues[0].value)}</td>
+        <td class="num">${fmtNum(r.metricValues[1].value)}</td>
+        <td class="num">${fmtPct(r.metricValues[2].value)}</td>
+      </tr>`).join('')}
+    </tbody></table>`;
+  } else {
+    document.getElementById('adsPaidSourceWrap').innerHTML = '<div class="placeholder">No paid source/medium data in this period</div>';
+  }
+
+  // Platform split — group by Google / Meta / Other
+  const platRows = platformR.rows||[];
+  if (platRows.length) {
+    const GOOGLE_TERMS = ['google','adwords','google ads'];
+    const META_TERMS   = ['facebook','instagram','meta','fb'];
+
+    const isGoogle = s => GOOGLE_TERMS.some(t => s.toLowerCase().includes(t));
+    const isMeta   = s => META_TERMS.some(t => s.toLowerCase().includes(t));
+
+    const groups = { google:0, meta:0, other:0 };
+    const groupSources = { google:[], meta:[], other:[] };
+    for (const r of platRows) {
+      const src = r.dimensionValues[0].value;
+      const n = +r.metricValues[0].value;
+      if (isGoogle(src))      { groups.google += n; groupSources.google.push(src); }
+      else if (isMeta(src))   { groups.meta   += n; groupSources.meta.push(src); }
+      else                    { groups.other  += n; groupSources.other.push(src); }
+    }
+
+    const platformData = [
+      { key:'google', label:'🔵 Google Ads',    cls:'platform-google', sessions:groups.google, sources:groupSources.google },
+      { key:'meta',   label:'📘 Meta (FB / IG)', cls:'platform-meta',   sessions:groups.meta,   sources:groupSources.meta },
+      { key:'other',  label:'🔗 Other Paid',     cls:'platform-other',  sessions:groups.other,  sources:groupSources.other },
+    ].filter(p => p.sessions > 0);
+
+    if (platformData.length) {
+      const maxP = Math.max(...platformData.map(p => p.sessions));
+      document.getElementById('adsPlatformWrap').innerHTML = `<table class="data-table"><thead><tr>
+        <th>Platform</th><th class="num">Sessions</th><th>Sources detected</th>
+      </tr></thead><tbody>
+        ${platformData.map(p=>`<tr>
+          <td><span class="platform-badge ${p.cls}">${p.label}</span></td>
+          <td class="num">${fmtNum(p.sessions)}<div class="bar-vis"><div class="bar-vis-fill" style="width:${Math.round((p.sessions/maxP)*100)}%"></div></div></td>
+          <td style="font-size:11px;color:var(--text-muted)">${p.sources.slice(0,5).join(', ')}${p.sources.length>5?` +${p.sources.length-5} more`:''}</td>
+        </tr>`).join('')}
+      </tbody></table>`;
+    } else {
+      document.getElementById('adsPlatformWrap').innerHTML = '<div class="placeholder">No platform data</div>';
+    }
+  } else {
+    document.getElementById('adsPlatformWrap').innerHTML = '<div class="placeholder">No paid traffic detected in this period</div>';
+  }
 }
 
 // ── ADD REPORT TAB ────────────────────────────────────────────────────────────
@@ -1095,6 +1400,7 @@ async function loadTab(tab) {
     if (tab === 'audience')    await loadAudience(token);
     if (tab === 'acquisition') await loadAcquisition(token);
     if (tab === 'content')     await loadContent(token);
+    if (tab === 'ads')         await loadAds(token);
     tabLoaded[tab] = true;
     hideStatus();
     document.getElementById('lastUpdated').textContent = `Updated ${new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'})}`;
