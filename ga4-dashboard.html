@@ -277,6 +277,14 @@
       .platform-meta   { background: #1a2f5e; color: #7ba9f0; }
     }
 
+    /* ── LOGO IMAGE + KPI AUTO GRID + FOOTNOTE ──────────────────── */
+    .logo-img { display: block; object-fit: contain; }
+    .kpi-auto {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 14px; margin-bottom: 18px;
+    }
+    .footnote { font-size: 11px; color: var(--text-muted); margin: 6px 2px 0; line-height: 1.5; }
+
     /* ── ADD REPORT TAB ──────────────────────────────────────── */
     .add-report-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 16px; margin-bottom: 20px; }
     .report-form {
@@ -328,36 +336,19 @@
 <!-- AUTH -->
 <div id="authScreen">
   <div class="auth-card">
-    <div class="auth-logo">
-      <!-- Daruma / Tengu face SVG -->
-      <svg viewBox="0 0 56 56" width="56" height="56" xmlns="http://www.w3.org/2000/svg">
-        <!-- White oval face -->
-        <ellipse cx="28" cy="32" rx="16" ry="18" fill="rgba(255,255,255,0.93)"/>
-        <!-- Left eyebrow -->
-        <path d="M13 24 Q18 18.5 23 22" stroke="rgba(255,255,255,0.97)" stroke-width="3.2" fill="none" stroke-linecap="round"/>
-        <!-- Right eyebrow -->
-        <path d="M33 22 Q38 18.5 43 24" stroke="rgba(255,255,255,0.97)" stroke-width="3.2" fill="none" stroke-linecap="round"/>
-        <!-- Left eye -->
-        <circle cx="22" cy="30" r="4.5" fill="#1a0808"/>
-        <circle cx="23.5" cy="28.5" r="1.5" fill="white"/>
-        <!-- Right eye -->
-        <circle cx="34" cy="30" r="4.5" fill="#1a0808"/>
-        <circle cx="35.5" cy="28.5" r="1.5" fill="white"/>
-        <!-- Nose bridge / septum hint -->
-        <ellipse cx="28" cy="36" rx="2.5" ry="2" fill="rgba(200,140,140,0.5)"/>
-        <!-- Mouth smile -->
-        <path d="M22 43 Q28 47 34 43" stroke="rgba(120,20,20,0.7)" stroke-width="2" fill="none" stroke-linecap="round"/>
-        <!-- Beard strokes -->
-        <path d="M18 46 Q28 50.5 38 46" stroke="rgba(255,255,255,0.55)" stroke-width="1.8" fill="none" stroke-linecap="round"/>
-      </svg>
+    <img src="ja-logo.png" alt="Japan Adventurer" id="authLogoImg" class="logo-img"
+         style="height:78px;max-width:300px;margin:0 auto 18px"
+         onerror="this.style.display='none';document.getElementById('authLogoFallback').style.display='block'">
+    <div id="authLogoFallback" style="display:none">
+      <div class="auth-logo" style="font-size:26px;font-weight:800;color:#fff;letter-spacing:-1px">JA</div>
+      <div class="auth-title">Japan Adventurer</div>
     </div>
-    <div class="auth-title">Japan Adventurer</div>
     <div class="auth-sub">Sign in with your Google account to load your GA4 analytics data.</div>
     <button class="sign-in-btn" id="signInBtn" onclick="signIn()">
       <svg width="18" height="18" viewBox="0 0 18 18"><path fill="#fff" d="M9 3.48c1.69 0 2.83.73 3.48 1.34l2.54-2.48C13.46.89 11.43 0 9 0 5.48 0 2.44 2.02.96 4.96l2.91 2.26C4.6 5.05 6.62 3.48 9 3.48z"/><path fill="#fff" d="M17.64 9.2c0-.74-.06-1.28-.19-1.84H9v3.34h4.96c-.1.83-.64 2.08-1.84 2.92l2.84 2.2c1.7-1.57 2.68-3.88 2.68-6.62z"/><path fill="#fff" d="M3.88 10.78A5.54 5.54 0 0 1 3.58 9c0-.62.11-1.22.29-1.78L.96 4.96A9 9 0 0 0 0 9c0 1.45.35 2.82.96 4.04l2.92-2.26z"/><path fill="#fff" d="M9 18c2.43 0 4.47-.8 5.96-2.18l-2.84-2.2c-.76.53-1.78.9-3.12.9-2.38 0-4.4-1.57-5.12-3.74L.87 13.04C2.35 15.98 5.48 18 9 18z"/></svg>
       Sign in with Google
     </button>
-    <div class="auth-note">Only analytics.readonly access is requested. Your data stays in your browser.</div>
+    <div class="auth-note">Read-only access to Analytics, Google Sheets &amp; Search Console is requested. Your data stays in your browser.</div>
   </div>
 </div>
 
@@ -367,25 +358,14 @@
   <!-- HEADER -->
   <header class="header">
     <div class="header-left">
-      <div class="logo">
-        <!-- Daruma / Tengu face SVG (header size) -->
-        <svg viewBox="0 0 38 38" width="38" height="38" xmlns="http://www.w3.org/2000/svg">
-          <ellipse cx="19" cy="22" rx="10.5" ry="12" fill="rgba(255,255,255,0.92)"/>
-          <path d="M9 16.5 Q12.5 13 16 15.5" stroke="rgba(255,255,255,0.97)" stroke-width="2.2" fill="none" stroke-linecap="round"/>
-          <path d="M22 15.5 Q25.5 13 29 16.5" stroke="rgba(255,255,255,0.97)" stroke-width="2.2" fill="none" stroke-linecap="round"/>
-          <circle cx="15" cy="21" r="3" fill="#1a0808"/>
-          <circle cx="16" cy="19.8" r="1" fill="white"/>
-          <circle cx="23" cy="21" r="3" fill="#1a0808"/>
-          <circle cx="24" cy="19.8" r="1" fill="white"/>
-          <ellipse cx="19" cy="24.5" rx="1.7" ry="1.3" fill="rgba(200,140,140,0.45)"/>
-          <path d="M15 29 Q19 31.5 23 29" stroke="rgba(120,20,20,0.65)" stroke-width="1.4" fill="none" stroke-linecap="round"/>
-          <path d="M12.5 31 Q19 33.5 25.5 31" stroke="rgba(255,255,255,0.45)" stroke-width="1.2" fill="none" stroke-linecap="round"/>
-        </svg>
-      </div>
-      <div>
+      <img src="ja-logo.png" alt="Japan Adventurer" id="hdrLogoImg" class="logo-img"
+           style="height:36px;max-width:190px"
+           onerror="this.style.display='none';document.getElementById('hdrLogoFallback').style.display='flex'">
+      <div id="hdrLogoFallback" style="display:none;align-items:center;gap:10px">
+        <div class="logo" style="font-size:15px;font-weight:800;color:#fff;letter-spacing:-0.5px">JA</div>
         <div class="header-title">Japan Adventurer</div>
-        <div class="header-sub">GA4 Analytics · Property 497521458</div>
       </div>
+      <div class="header-sub">GA4 Analytics · Property 497521458</div>
     </div>
     <div class="header-right">
       <div class="range-group">
@@ -418,7 +398,9 @@
     <button class="tab-btn" data-tab="audience"><span class="tab-icon">👥</span> Audience</button>
     <button class="tab-btn" data-tab="acquisition"><span class="tab-icon">📡</span> Acquisition</button>
     <button class="tab-btn" data-tab="content"><span class="tab-icon">📄</span> Content</button>
-    <button class="tab-btn" data-tab="ads"><span class="tab-icon">📢</span> Ads</button>
+    <button class="tab-btn" data-tab="ads"><span class="tab-icon">📢</span> Paid Traffic</button>
+    <button class="tab-btn" data-tab="adspend"><span class="tab-icon">💰</span> Ad Spend</button>
+    <button class="tab-btn" data-tab="seo"><span class="tab-icon">🔍</span> SEO</button>
     <button class="tab-btn" data-tab="addreport"><span class="tab-icon">➕</span> Add Report</button>
   </nav>
 
@@ -571,6 +553,50 @@
       </div>
     </div>
 
+    <!-- ═══════════ TAB: AD SPEND (Google Sheets) ═══════════ -->
+    <div class="tab-panel" id="tab-adspend">
+      <div class="metrics-grid" id="adspendKpi"></div>
+      <div class="row-1">
+        <div class="card">
+          <div class="card-header"><span class="card-title">Spend Over Time</span><span class="card-badge">Meta vs Google · Daily</span></div>
+          <div id="adspendTrendWrap"><div class="placeholder"><div class="spinner"></div> Loading…</div></div>
+        </div>
+      </div>
+      <div class="row-2r">
+        <div class="card">
+          <div class="card-header"><span class="card-title">Platform Comparison</span><span class="card-badge">Meta vs Google</span></div>
+          <div id="adspendCompareWrap"><div class="placeholder"><div class="spinner"></div> Loading…</div></div>
+        </div>
+        <div class="card">
+          <div class="card-header"><span class="card-title">Campaign Performance</span><span class="card-badge">By Spend</span></div>
+          <div id="adspendCampaignWrap"><div class="placeholder"><div class="spinner"></div> Loading…</div></div>
+        </div>
+      </div>
+      <div class="footnote" id="adspendNote"></div>
+    </div>
+
+    <!-- ═══════════ TAB: SEO (Search Console) ═══════════ -->
+    <div class="tab-panel" id="tab-seo">
+      <div class="kpi-auto" id="seoKpi"></div>
+      <div class="row-1">
+        <div class="card">
+          <div class="card-header"><span class="card-title">Clicks &amp; Impressions</span><span class="card-badge" id="seoSiteBadge">—</span></div>
+          <div id="seoTrendWrap"><div class="placeholder"><div class="spinner"></div> Loading…</div></div>
+        </div>
+      </div>
+      <div class="row-eq">
+        <div class="card">
+          <div class="card-header"><span class="card-title">Top Queries</span><span class="card-badge">Top 25 by Clicks</span></div>
+          <div id="seoQueriesWrap"><div class="placeholder"><div class="spinner"></div> Loading…</div></div>
+        </div>
+        <div class="card">
+          <div class="card-header"><span class="card-title">Top Pages</span><span class="card-badge">Top 25 by Clicks</span></div>
+          <div id="seoPagesWrap"><div class="placeholder"><div class="spinner"></div> Loading…</div></div>
+        </div>
+      </div>
+      <div class="footnote">Search Console data is finalized with a ~2-day lag, so the most recent days may be empty.</div>
+    </div>
+
     <!-- ═══════════ TAB: ADD REPORT ═══════════ -->
     <div class="tab-panel" id="tab-addreport">
       <div class="row-eq" style="align-items:start">
@@ -637,7 +663,19 @@
 // ── CONFIG ──────────────────────────────────────────────────────────────────
 const CLIENT_ID   = '745005965152-9v3k4p5sr1lv0eiva9sf26o7ltvcnmn9.apps.googleusercontent.com';
 const PROPERTY_ID = '497521458';
-const SCOPE       = 'https://www.googleapis.com/auth/analytics.readonly';
+const SCOPE       = 'https://www.googleapis.com/auth/analytics.readonly https://www.googleapis.com/auth/spreadsheets.readonly https://www.googleapis.com/auth/webmasters.readonly';
+
+// Ad-spend source: Google Sheet with real ad-platform cost data (verified schema).
+const SHEET_ID    = '1UBZke4uvtuoWGF3ijkXAMYTTkbslY2pKUqrcf21c5go';
+const SHEET_TABS  = { meta: 'Meta_Ads_RawData', google: 'Google_Ads_RawData' };
+// Both ad accounts report spend in the SAME currency and NOT in micros (verified against the sheet).
+// All spend math is currency-agnostic — change only these three fields if the real currency differs.
+const CURRENCY    = { code: 'JPY', symbol: '¥', locale: 'en-US' };
+// Search Console property. Auto-detected from the account's verified sites; this is the preferred match.
+const GSC_SITE    = 'https://japanadventurer.com/';
+
+const SCOPE_SHEETS = 'https://www.googleapis.com/auth/spreadsheets.readonly';
+const SCOPE_GSC    = 'https://www.googleapis.com/auth/webmasters.readonly';
 
 // ── STATE ───────────────────────────────────────────────────────────────────
 let tokenClient  = null;
@@ -654,6 +692,11 @@ let customReports = [];
 
 // Content category state
 let contentCategoryData = [];  // cached rows from the category API call
+
+// Add-on state
+let grantedScopes = new Set();  // scopes actually granted in the current token
+let adSpendRaw    = null;       // normalized Sheets rows (both platforms) — fetched once, filtered client-side
+let gscSiteUrl    = null;       // resolved Search Console property
 
 // ── DATE RANGE HELPER ───────────────────────────────────────────────────────
 function getDateRange() {
@@ -685,6 +728,7 @@ function onTokenResponse(resp) {
   }
   accessToken = resp.access_token;
   tokenExpiry = Date.now() + (resp.expires_in - 60) * 1000;
+  grantedScopes = new Set((resp.scope || '').split(' ').filter(Boolean));
   try {
     const payload = JSON.parse(atob(resp.id_token?.split('.')[1] || '{}'));
     const email = payload.email || '';
@@ -721,6 +765,7 @@ function signIn() {
 function signOut() {
   if (accessToken) google.accounts.oauth2.revoke(accessToken, () => {});
   accessToken = null; tokenExpiry = 0; tabLoaded = {};
+  grantedScopes = new Set(); adSpendRaw = null; gscSiteUrl = null;
   document.getElementById('dashboardScreen').style.display = 'none';
   document.getElementById('authScreen').style.display = 'flex';
 }
@@ -1381,6 +1426,321 @@ function removeReport(id) {
   renderCustomReports();
 }
 
+// ══════════════════════════════════════════════════════════════════════════════
+//  ADD-ONS: Ad Spend (Google Sheets) + SEO (Search Console)
+// ══════════════════════════════════════════════════════════════════════════════
+function hasScope(s) { return grantedScopes.has(s); }
+function grantMore() { if (tokenClient) tokenClient.requestAccessToken({ prompt: 'consent' }); }
+
+// ── ABSOLUTE DATE HELPERS (Sheets filtering + GSC need real YYYY-MM-DD) ────────
+function pad2(n) { return String(n).padStart(2, '0'); }
+function ymd(d)  { return `${d.getFullYear()}-${pad2(d.getMonth()+1)}-${pad2(d.getDate())}`; }
+function getAbsoluteRange() {
+  if (currentDays === 0 && customStart && customEnd) return { start: customStart, end: customEnd };
+  const end = new Date(); end.setHours(0,0,0,0); end.setDate(end.getDate()-1); // yesterday
+  const start = new Date(end);
+  if (currentDays > 1) start.setDate(end.getDate() - (currentDays-1));
+  return { start: ymd(start), end: ymd(end) };
+}
+
+// ── NUMBER / DATE PARSING (defensive — the two ad tabs differ) ─────────────────
+function toNum(v) {
+  if (typeof v === 'number') return v;
+  const n = parseFloat(String(v).replace(/[^0-9.\-]/g,''));
+  return isNaN(n) ? 0 : n;
+}
+function parseSheetDate(v) {
+  if (v == null || v === '') return null;
+  if (typeof v === 'number') { // Sheets serial (days since 1899-12-30)
+    const d = new Date(Date.UTC(1899,11,30) + Math.round(v)*86400000);
+    return `${d.getUTCFullYear()}-${pad2(d.getUTCMonth()+1)}-${pad2(d.getUTCDate())}`;
+  }
+  const s = String(v).trim();
+  let m = s.match(/^(\d{4})-(\d{1,2})-(\d{1,2})/);   if (m) return `${m[1]}-${pad2(+m[2])}-${pad2(+m[3])}`; // ISO (Meta)
+  m = s.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})/);      if (m) return `${m[3]}-${pad2(+m[2])}-${pad2(+m[1])}`; // d/m/yyyy (Google)
+  return null;
+}
+function fmtMoney(v)  { return CURRENCY.symbol + Math.round(parseFloat(v)||0).toLocaleString(); }
+function fmtMoney2(v) { return CURRENCY.symbol + (parseFloat(v)||0).toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:2}); }
+function kpiSkeleton(n){ return Array.from({length:n},()=>'<div class="metric-card"><div class="skeleton"></div></div>').join(''); }
+
+function renderScopeNeeded(tab) {
+  const ids = tab==='adspend'
+    ? ['adspendKpi','adspendTrendWrap','adspendCompareWrap','adspendCampaignWrap']
+    : ['seoKpi','seoTrendWrap','seoQueriesWrap','seoPagesWrap'];
+  ids.forEach((id,i) => {
+    const el = document.getElementById(id); if (!el) return;
+    el.innerHTML = i===1
+      ? `<div class="placeholder" style="flex-direction:column;gap:12px">
+           <div>This tab needs extra Google permission that wasn't granted.</div>
+           <button class="apply-btn" onclick="grantMore()">Grant access</button>
+         </div>`
+      : '';
+  });
+}
+
+// ── SHEETS API ────────────────────────────────────────────────────────────────
+async function sheetsGet(token, tab) {
+  const url = `https://sheets.googleapis.com/v4/spreadsheets/${SHEET_ID}/values/${encodeURIComponent(tab)}`
+            + `?valueRenderOption=UNFORMATTED_VALUE&dateTimeRenderOption=SERIAL_NUMBER`;
+  const res = await fetch(url, { headers: { Authorization: `Bearer ${token}` } });
+  if (!res.ok) { const e = await res.json().catch(()=>({})); throw new Error(`${res.status} ${e.error?.message||''}`); }
+  return res.json();
+}
+function normalizeSheet(values, platform) {
+  if (!Array.isArray(values) || values.length < 2) return [];
+  const H = values[0].map(h => String(h).trim());
+  const ix = n => H.indexOf(n);
+  const di=ix('date'), ci=ix('campaign_name'), ii=ix('impressions'),
+        cli=ix('clicks'), si=ix('spend'), lpvi=ix('lpv'), ri=ix('reach');
+  const out = [];
+  for (let r=1; r<values.length; r++) {
+    const row = values[r]; if (!row) continue;
+    const date = parseSheetDate(row[di]); if (!date) continue;
+    out.push({
+      platform, date,
+      campaign:    (String(row[ci] ?? '').trim()) || '(unnamed)',
+      impressions: toNum(row[ii]),
+      clicks:      toNum(row[cli]),
+      spend:       toNum(row[si]),
+      lpv:  lpvi >= 0 ? toNum(row[lpvi]) : null,
+      reach: ri  >= 0 ? toNum(row[ri])   : null,
+    });
+  }
+  return out;
+}
+
+async function loadAdSpend(token) {
+  const el = id => document.getElementById(id);
+  if (!hasScope(SCOPE_SHEETS)) { renderScopeNeeded('adspend'); return; }
+  if (!adSpendRaw) {
+    el('adspendKpi').innerHTML = kpiSkeleton(6);
+    ['adspendTrendWrap','adspendCompareWrap','adspendCampaignWrap'].forEach(i => el(i).innerHTML = '<div class="placeholder"><div class="spinner"></div> Loading…</div>');
+    let meta = null, google = null; const errs = [];
+    try { meta   = await sheetsGet(token, SHEET_TABS.meta);   } catch(e){ errs.push('Meta: '+e.message); }
+    try { google = await sheetsGet(token, SHEET_TABS.google); } catch(e){ errs.push('Google: '+e.message); }
+    if (!meta && !google) {
+      el('adspendKpi').innerHTML = '';
+      el('adspendTrendWrap').innerHTML = `<div class="placeholder">Could not load the sheet — ${errs.join(' · ')}</div>`;
+      return;
+    }
+    adSpendRaw = [ ...normalizeSheet(meta?.values,'Meta'), ...normalizeSheet(google?.values,'Google') ];
+  }
+  renderAdSpend();
+}
+
+function renderAdSpend() {
+  const el = id => document.getElementById(id);
+  const { start, end } = getAbsoluteRange();
+  const rows = (adSpendRaw || []).filter(r => r.date >= start && r.date <= end);
+  const note = el('adspendNote');
+  if (note) note.textContent = `${CURRENCY.code} · ${start} → ${end} · CTR/CPC recomputed from raw spend, clicks & impressions. Meta reach not summed (deduplicated by platform).`;
+
+  if (!rows.length) {
+    el('adspendKpi').innerHTML = '';
+    ['adspendTrendWrap','adspendCompareWrap','adspendCampaignWrap'].forEach(i => el(i).innerHTML = '<div class="placeholder">No ad spend in this period</div>');
+    return;
+  }
+
+  const sum = (a,f) => a.reduce((s,r)=>s+(f(r)||0),0);
+  const metaRows = rows.filter(r=>r.platform==='Meta');
+  const gRows    = rows.filter(r=>r.platform==='Google');
+  const totSpend = sum(rows,r=>r.spend), totClicks = sum(rows,r=>r.clicks), totImpr = sum(rows,r=>r.impressions);
+  const metaSpend = sum(metaRows,r=>r.spend), totLpv = sum(metaRows,r=>r.lpv);
+
+  // KPI strip
+  const kpis = [
+    { icon:'💰', label:`Total Spend (${CURRENCY.code})`, val: fmtMoney(totSpend) },
+    { icon:'🖱️', label:'Clicks',            val: fmtNum(totClicks) },
+    { icon:'📊', label:'Blended CPC',        val: totClicks ? fmtMoney2(totSpend/totClicks) : '—' },
+    { icon:'🛬', label:'LPVs (Meta)',        val: fmtNum(totLpv) },
+    { icon:'🎯', label:'Cost / LPV (Meta)',  val: totLpv ? fmtMoney2(metaSpend/totLpv) : '—' },
+    { icon:'⚡', label:'CTR',                val: totImpr ? ((totClicks/totImpr)*100).toFixed(2)+'%' : '—' },
+  ];
+  el('adspendKpi').innerHTML = kpis.map(k => `<div class="metric-card"><span class="metric-icon">${k.icon}</span><div class="metric-label">${k.label}</div><div class="metric-value">${k.val}</div></div>`).join('');
+
+  // Spend over time — stacked bar Meta vs Google
+  const dates = [...new Set(rows.map(r=>r.date))].sort();
+  const spendByDate = p => dates.map(d => sum(rows.filter(r=>r.date===d && r.platform===p), r=>r.spend));
+  el('adspendTrendWrap').innerHTML = '<div class="chart-wrap chart-h300"><canvas id="adspendTrendCanvas"></canvas></div>';
+  destroyChart('adspendTrend');
+  charts['adspendTrend'] = new Chart(document.getElementById('adspendTrendCanvas'), {
+    type: 'bar',
+    data: { labels: dates.map(d=>d.slice(5)), datasets: [
+      { label:'Meta',   data:spendByDate('Meta'),   backgroundColor:'#1877f2', borderRadius:3, stack:'s' },
+      { label:'Google', data:spendByDate('Google'), backgroundColor:'#34a853', borderRadius:3, stack:'s' },
+    ]},
+    options: {
+      responsive:true, maintainAspectRatio:false, interaction:{ mode:'index', intersect:false },
+      plugins:{ legend:{ labels:{ color:labelColor(), font:{size:12}, usePointStyle:true, padding:16 } },
+        tooltip:{ callbacks:{ label:c=>`  ${c.dataset.label}: ${fmtMoney(c.parsed.y)}` } } },
+      scales:{
+        x:{ stacked:true, ticks:{ color:labelColor(), maxTicksLimit:14, font:{size:10} }, grid:{ color:gridColor() } },
+        y:{ stacked:true, ticks:{ color:labelColor(), font:{size:11}, callback:v=>CURRENCY.symbol+fmtNum(v) }, grid:{ color:gridColor() } }
+      }
+    }
+  });
+
+  // Platform comparison
+  const stat = a => { const s=sum(a,r=>r.spend), c=sum(a,r=>r.clicks), i=sum(a,r=>r.impressions), l=sum(a,r=>r.lpv);
+    return { spend:s, clicks:c, impr:i, lpv:l, ctr:i?c/i:0, cpc:c?s/c:0, cplpv:l?s/l:0 }; };
+  const M = stat(metaRows), G = stat(gRows);
+  el('adspendCompareWrap').innerHTML = `<table class="data-table"><thead><tr>
+      <th>Metric</th>
+      <th class="num"><span class="platform-badge platform-meta">📘 Meta</span></th>
+      <th class="num"><span class="platform-badge platform-google">🔵 Google</span></th>
+    </tr></thead><tbody>
+    ${[
+      ['Spend',       fmtMoney(M.spend),  fmtMoney(G.spend)],
+      ['Impressions', fmtNum(M.impr),     fmtNum(G.impr)],
+      ['Clicks',      fmtNum(M.clicks),   fmtNum(G.clicks)],
+      ['CTR',         (M.ctr*100).toFixed(2)+'%', (G.ctr*100).toFixed(2)+'%'],
+      ['CPC',         fmtMoney2(M.cpc),   fmtMoney2(G.cpc)],
+      ['LPVs',        fmtNum(M.lpv),      '—'],
+      ['Cost / LPV',  M.lpv?fmtMoney2(M.cplpv):'—', '—'],
+    ].map(r=>`<tr><td>${r[0]}</td><td class="num">${r[1]}</td><td class="num">${r[2]}</td></tr>`).join('')}
+  </tbody></table>`;
+
+  // Campaign table — aggregate by platform + campaign, sorted by spend
+  const map = new Map();
+  for (const r of rows) {
+    const k = r.platform + '||' + r.campaign;
+    let o = map.get(k);
+    if (!o) { o = { platform:r.platform, campaign:r.campaign, spend:0, impr:0, clicks:0, lpv:0 }; map.set(k,o); }
+    o.spend += r.spend; o.impr += r.impressions; o.clicks += r.clicks; o.lpv += (r.lpv||0);
+  }
+  const camps = [...map.values()].sort((a,b)=>b.spend-a.spend);
+  const maxS = camps[0].spend || 1;
+  el('adspendCampaignWrap').innerHTML = `<table class="data-table"><thead><tr>
+      <th>Platform</th><th>Campaign</th><th class="num">Spend</th><th class="num">Impr.</th>
+      <th class="num">Clicks</th><th class="num">CTR</th><th class="num">CPC</th>
+      <th class="num">LPVs</th><th class="num">Cost/LPV</th>
+    </tr></thead><tbody>
+    ${camps.map(c=>`<tr>
+      <td><span class="platform-badge ${c.platform==='Meta'?'platform-meta':'platform-google'}">${c.platform==='Meta'?'📘':'🔵'} ${c.platform}</span></td>
+      <td style="max-width:210px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:12px" title="${c.campaign}">${c.campaign}</td>
+      <td class="num">${fmtMoney(c.spend)}<div class="bar-vis"><div class="bar-vis-fill" style="width:${Math.round((c.spend/maxS)*100)}%"></div></div></td>
+      <td class="num">${fmtNum(c.impr)}</td>
+      <td class="num">${fmtNum(c.clicks)}</td>
+      <td class="num">${c.impr?((c.clicks/c.impr)*100).toFixed(2)+'%':'—'}</td>
+      <td class="num">${c.clicks?fmtMoney2(c.spend/c.clicks):'—'}</td>
+      <td class="num">${c.platform==='Meta'?fmtNum(c.lpv):'—'}</td>
+      <td class="num">${c.platform==='Meta'&&c.lpv?fmtMoney2(c.spend/c.lpv):'—'}</td>
+    </tr>`).join('')}
+  </tbody></table>`;
+}
+
+// ── SEARCH CONSOLE API ────────────────────────────────────────────────────────
+async function gscListSites(token) {
+  const res = await fetch('https://searchconsole.googleapis.com/webmasters/v3/sites', { headers:{ Authorization:`Bearer ${token}` } });
+  if (!res.ok) return [];
+  const j = await res.json();
+  return (j.siteEntry || []).map(s => s.siteUrl);
+}
+async function resolveGscSite(token) {
+  const sites = await gscListSites(token);
+  if (!sites.length) return null;
+  if (sites.includes(GSC_SITE)) return GSC_SITE;
+  const norm = u => u.replace(/^sc-domain:/,'').replace(/^https?:\/\//,'').replace(/\/$/,'').replace(/^www\./,'').toLowerCase();
+  const target = norm(GSC_SITE);
+  return sites.find(s => norm(s) === target)
+      || sites.find(s => s.startsWith('sc-domain:'))
+      || sites[0];
+}
+async function gscQuery(token, site, body) {
+  const res = await fetch(`https://searchconsole.googleapis.com/webmasters/v3/sites/${encodeURIComponent(site)}/searchAnalytics/query`,
+    { method:'POST', headers:{ Authorization:`Bearer ${token}`, 'Content-Type':'application/json' }, body:JSON.stringify(body) });
+  if (!res.ok) { const e = await res.json().catch(()=>({})); throw new Error(`${res.status} ${e.error?.message||''}`); }
+  return res.json();
+}
+function capGscEnd(end) { // GSC finalizes with a ~2-day lag
+  const lag = new Date(); lag.setHours(0,0,0,0); lag.setDate(lag.getDate()-2);
+  const l = ymd(lag);
+  return end < l ? end : l;
+}
+
+async function loadSeo(token) {
+  const el = id => document.getElementById(id);
+  if (!hasScope(SCOPE_GSC)) { renderScopeNeeded('seo'); return; }
+  el('seoKpi').innerHTML = kpiSkeleton(4);
+  ['seoTrendWrap','seoQueriesWrap','seoPagesWrap'].forEach(i => el(i).innerHTML = '<div class="placeholder"><div class="spinner"></div> Loading…</div>');
+
+  if (!gscSiteUrl) gscSiteUrl = await resolveGscSite(token);
+  if (!gscSiteUrl) {
+    el('seoKpi').innerHTML = '';
+    el('seoTrendWrap').innerHTML = '<div class="placeholder">No Search Console property is accessible with this Google account.</div>';
+    return;
+  }
+  el('seoSiteBadge').textContent = gscSiteUrl;
+
+  let { start, end } = getAbsoluteRange();
+  end = capGscEnd(end);
+  if (start > end) start = end;
+
+  const [tot, tr, q, pg] = await Promise.all([
+    gscQuery(token, gscSiteUrl, { startDate:start, endDate:end, dimensions:[] }).catch(()=>null),
+    gscQuery(token, gscSiteUrl, { startDate:start, endDate:end, dimensions:['date'], rowLimit:1000 }).catch(()=>null),
+    gscQuery(token, gscSiteUrl, { startDate:start, endDate:end, dimensions:['query'], rowLimit:25 }).catch(()=>null),
+    gscQuery(token, gscSiteUrl, { startDate:start, endDate:end, dimensions:['page'],  rowLimit:25 }).catch(()=>null),
+  ]);
+
+  const agg = tot?.rows?.[0] || null;
+  const kpis = [
+    { icon:'🖱️', label:'Clicks',       val: fmtNum(agg?agg.clicks:0) },
+    { icon:'👁️', label:'Impressions',  val: fmtNum(agg?agg.impressions:0) },
+    { icon:'⚡', label:'Avg CTR',      val: ((agg?agg.ctr:0)*100).toFixed(2)+'%' },
+    { icon:'📈', label:'Avg Position', val: agg&&agg.position ? agg.position.toFixed(1) : '—' },
+  ];
+  el('seoKpi').innerHTML = kpis.map(k => `<div class="metric-card"><span class="metric-icon">${k.icon}</span><div class="metric-label">${k.label}</div><div class="metric-value">${k.val}</div></div>`).join('');
+
+  const trows = tr?.rows || [];
+  if (trows.length) {
+    el('seoTrendWrap').innerHTML = '<div class="chart-wrap chart-h300"><canvas id="seoTrendCanvas"></canvas></div>';
+    destroyChart('seoTrend');
+    charts['seoTrend'] = new Chart(document.getElementById('seoTrendCanvas'), {
+      type: 'bar',
+      data: { labels: trows.map(r=>r.keys[0].slice(5)), datasets: [
+        { label:'Clicks', data:trows.map(r=>r.clicks), backgroundColor:'rgba(214,40,57,0.75)', borderRadius:3, yAxisID:'y' },
+        { label:'Impressions', data:trows.map(r=>r.impressions), type:'line', borderColor:'#457b9d', backgroundColor:'transparent', borderWidth:2, pointRadius:0, tension:0.35, yAxisID:'y1' },
+      ]},
+      options: {
+        responsive:true, maintainAspectRatio:false, interaction:{ mode:'index', intersect:false },
+        plugins:{ legend:{ labels:{ color:labelColor(), font:{size:12}, usePointStyle:true, padding:16 } } },
+        scales:{
+          x:{ ticks:{ color:labelColor(), maxTicksLimit:14, font:{size:10} }, grid:{ color:gridColor() } },
+          y:{ position:'left',  ticks:{ color:labelColor(), font:{size:11} }, grid:{ color:gridColor() } },
+          y1:{ position:'right', ticks:{ color:labelColor(), font:{size:11} }, grid:{ display:false } }
+        }
+      }
+    });
+  } else {
+    el('seoTrendWrap').innerHTML = '<div class="placeholder">No Search Console data for this period (data lags ~2 days).</div>';
+  }
+
+  renderGscTable('seoQueriesWrap', q?.rows || [], 'Query');
+  renderGscTable('seoPagesWrap',   pg?.rows || [], 'Page');
+}
+
+function renderGscTable(id, rows, label) {
+  const wrap = document.getElementById(id);
+  if (!rows.length) { wrap.innerHTML = '<div class="placeholder">No data</div>'; return; }
+  rows = rows.slice().sort((a,b)=>b.clicks-a.clicks);
+  const isPage = label === 'Page';
+  wrap.innerHTML = `<table class="data-table"><thead><tr>
+      <th style="width:30px">#</th><th>${label}</th>
+      <th class="num">Clicks</th><th class="num">Impr.</th><th class="num">CTR</th><th class="num">Pos.</th>
+    </tr></thead><tbody>
+    ${rows.map((r,i)=>`<tr>
+      <td><span class="rank-badge${i<3?' top3':''}">${i+1}</span></td>
+      <td>${isPage ? `<span class="page-path" title="${r.keys[0]}">${r.keys[0]}</span>` : r.keys[0]}</td>
+      <td class="num">${fmtNum(r.clicks)}</td>
+      <td class="num">${fmtNum(r.impressions)}</td>
+      <td class="num">${(r.ctr*100).toFixed(1)}%</td>
+      <td class="num">${r.position.toFixed(1)}</td>
+    </tr>`).join('')}
+  </tbody></table>`;
+}
+
 // ── TAB SWITCHING ─────────────────────────────────────────────────────────────
 function switchTab(tab) {
   document.querySelectorAll('.tab-btn').forEach(b => b.classList.toggle('active', b.dataset.tab === tab));
@@ -1401,6 +1761,8 @@ async function loadTab(tab) {
     if (tab === 'acquisition') await loadAcquisition(token);
     if (tab === 'content')     await loadContent(token);
     if (tab === 'ads')         await loadAds(token);
+    if (tab === 'adspend')     await loadAdSpend(token);
+    if (tab === 'seo')         await loadSeo(token);
     tabLoaded[tab] = true;
     hideStatus();
     document.getElementById('lastUpdated').textContent = `Updated ${new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'})}`;
@@ -1425,6 +1787,7 @@ async function refreshAll() {
   btn.disabled = true; btn.innerHTML = '<div class="spinner-white"></div> Loading…';
   if (!accessToken || Date.now() >= tokenExpiry) { signIn(); btn.disabled = false; btn.innerHTML = '<span>↻</span> Refresh'; return; }
   tabLoaded = {};
+  adSpendRaw = null;  // force a fresh Sheets pull
   await loadTab(activeTab);
   btn.disabled = false; btn.innerHTML = '<span>↻</span> Refresh';
 }
