@@ -6,6 +6,8 @@
   <title>Japan Adventurer — GA4 Dashboard</title>
   <script src="https://accounts.google.com/gsi/client" async defer></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/9.1.6/marked.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
   <style>
     :root {
       --bg: #f0f4f8;
@@ -334,6 +336,110 @@
     .section-header:first-child { margin-top: 0; }
 
     .footer { text-align: center; padding: 20px; font-size: 11px; color: var(--text-muted); margin-top: 8px; }
+
+    /* ── AGENT TAB ───────────────────────────────────────────── */
+    .agent-layout {
+      display: grid; grid-template-columns: 280px 1fr; gap: 16px;
+      height: calc(100vh - 200px); min-height: 520px;
+    }
+    @media (max-width: 900px) { .agent-layout { grid-template-columns: 1fr; height: auto; min-height: 0; } }
+
+    .agent-sidebar {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: var(--r); box-shadow: var(--shadow); padding: 18px;
+      height: 100%; overflow-y: auto; display: flex; flex-direction: column; gap: 8px;
+    }
+    @media (max-width: 900px) { .agent-sidebar { height: auto; } }
+    .agent-side-title { font-size: 15px; font-weight: 800; letter-spacing: -0.2px; }
+    .agent-side-sub   { font-size: 12px; color: var(--text-muted); line-height: 1.5; margin-bottom: 8px; }
+    .agent-chips-label { font-size: 10.5px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-muted); margin: 4px 0 2px; }
+    .agent-chip {
+      text-align: left; width: 100%; padding: 9px 12px; background: var(--surface-2);
+      border: 1px solid var(--border); border-radius: 10px; color: var(--text);
+      font-size: 12.5px; font-family: inherit; line-height: 1.35; cursor: pointer;
+      transition: all 0.15s;
+    }
+    .agent-chip:hover { border-color: var(--accent); color: var(--accent); }
+    .agent-side-note { font-size: 11px; color: var(--text-muted); line-height: 1.5; margin-top: auto; padding-top: 14px; }
+
+    .agent-main {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: var(--r); box-shadow: var(--shadow); height: 100%;
+      min-height: 0; display: flex; flex-direction: column; overflow: hidden;
+    }
+    @media (max-width: 900px) { .agent-main { height: 72vh; } }
+
+    .agent-warn {
+      padding: 10px 16px; background: #fef3c7; color: #92400e; font-size: 12.5px;
+      font-weight: 600; border-bottom: 1px solid var(--border);
+    }
+    @media (prefers-color-scheme: dark) { .agent-warn { background: #3b2f00; color: #fcd34d; } }
+
+    .agent-convo { flex: 1; overflow-y: auto; padding: 20px; display: flex; flex-direction: column; gap: 16px; }
+    .agent-empty { margin: auto; text-align: center; color: var(--text-muted); font-size: 13px; max-width: 340px; line-height: 1.6; }
+
+    .agent-msg { display: flex; flex-direction: column; max-width: 100%; }
+    .agent-msg.user { align-items: flex-end; }
+    .agent-msg.bot  { align-items: flex-start; }
+
+    .bubble { border-radius: 14px; padding: 12px 16px; line-height: 1.55; font-size: 13.5px; max-width: 100%; overflow-x: auto; }
+    .bubble.user { background: var(--accent); color: #fff; max-width: 80%; border-bottom-right-radius: 4px; white-space: pre-wrap; }
+    .bubble.bot  { background: var(--surface-2); color: var(--text); border: 1px solid var(--border); width: 100%; border-bottom-left-radius: 4px; }
+    .bubble.error { background: #fee2e2; color: #b91c1c; border: 1px solid #fca5a5; width: 100%; }
+    @media (prefers-color-scheme: dark) { .bubble.error { background: #3b1111; color: #fca5a5; border-color: #5b2020; } }
+
+    /* markdown content inside agent answers */
+    .bubble.bot > *:first-child { margin-top: 0; }
+    .bubble.bot > *:last-child  { margin-bottom: 0; }
+    .bubble.bot p  { margin: 0 0 8px; }
+    .bubble.bot ul, .bubble.bot ol { margin: 0 0 8px; padding-left: 20px; }
+    .bubble.bot li { margin-bottom: 3px; }
+    .bubble.bot h1, .bubble.bot h2, .bubble.bot h3, .bubble.bot h4 { margin: 12px 0 6px; font-weight: 700; line-height: 1.3; }
+    .bubble.bot h1 { font-size: 17px; } .bubble.bot h2 { font-size: 15px; } .bubble.bot h3 { font-size: 14px; } .bubble.bot h4 { font-size: 13px; }
+    .bubble.bot a { color: var(--blue); }
+    .bubble.bot blockquote { margin: 0 0 8px; padding: 4px 12px; border-left: 3px solid var(--border); color: var(--text-muted); }
+    .bubble.bot hr { border: none; border-top: 1px solid var(--border); margin: 12px 0; }
+    .bubble.bot code { font-family: 'SF Mono', 'Fira Code', monospace; font-size: 12px; }
+    .bubble.bot :not(pre) > code { background: var(--surface); border: 1px solid var(--border); padding: 1px 5px; border-radius: 5px; }
+    .bubble.bot pre { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-sm); padding: 10px 12px; overflow-x: auto; margin: 0 0 8px; }
+    .bubble.bot pre code { background: none; border: none; padding: 0; }
+    .bubble.bot .table-scroll { overflow-x: auto; max-width: 100%; margin: 0 0 8px; }
+    .bubble.bot table.data-table { margin: 0; }
+    .bubble.bot .mermaid { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-sm); padding: 12px; margin: 0 0 8px; text-align: center; }
+
+    .agent-actions { display: flex; gap: 8px; margin-top: 8px; }
+    .agent-action-btn {
+      display: inline-flex; align-items: center; gap: 5px; padding: 4px 10px;
+      background: var(--surface-2); border: 1px solid var(--border); border-radius: 8px;
+      color: var(--text-muted); font-size: 11.5px; font-weight: 600; font-family: inherit;
+      cursor: pointer; transition: all 0.15s;
+    }
+    .agent-action-btn:hover { border-color: var(--accent); color: var(--accent); }
+
+    .typing { display: inline-flex; gap: 5px; align-items: center; padding: 3px 2px; }
+    .typing span { width: 7px; height: 7px; border-radius: 50%; background: var(--text-muted); animation: typing-bounce 1.2s infinite ease-in-out; }
+    .typing span:nth-child(2) { animation-delay: 0.18s; }
+    .typing span:nth-child(3) { animation-delay: 0.36s; }
+    @keyframes typing-bounce { 0%, 60%, 100% { transform: translateY(0); opacity: 0.4; } 30% { transform: translateY(-5px); opacity: 1; } }
+
+    .agent-input-area {
+      border-top: 1px solid var(--border); padding: 14px 16px; background: var(--surface);
+      display: flex; gap: 10px; align-items: flex-end;
+    }
+    .agent-textarea {
+      flex: 1; resize: none; border: 1px solid var(--border); background: var(--surface-2);
+      color: var(--text); border-radius: 12px; padding: 10px 14px; font-size: 13.5px;
+      font-family: inherit; line-height: 1.4; outline: none; max-height: 96px; overflow-y: auto;
+      transition: border-color 0.15s;
+    }
+    .agent-textarea:focus { border-color: var(--accent); }
+    .agent-send-btn {
+      background: var(--accent); color: #fff; border: none; border-radius: 12px;
+      padding: 0 18px; height: 42px; font-size: 14px; font-weight: 600; font-family: inherit;
+      cursor: pointer; flex-shrink: 0; transition: opacity 0.15s;
+    }
+    .agent-send-btn:hover:not(:disabled) { opacity: 0.88; }
+    .agent-send-btn:disabled { opacity: 0.5; cursor: not-allowed; }
   </style>
 </head>
 <body>
@@ -407,6 +513,7 @@
     <button class="tab-btn" data-tab="adspend"><span class="tab-icon">💰</span> Ad Spend</button>
     <button class="tab-btn" data-tab="seo"><span class="tab-icon">🔍</span> SEO</button>
     <button class="tab-btn" data-tab="addreport"><span class="tab-icon">➕</span> Add Report</button>
+    <button class="tab-btn" data-tab="agent"><span class="tab-icon">🤖</span> Agent</button>
   </nav>
 
   <main class="main">
@@ -658,6 +765,34 @@
       </div>
     </div>
 
+    <!-- ═══════════ TAB: AGENT ═══════════ -->
+    <div class="tab-panel" id="tab-agent">
+      <div class="agent-layout">
+        <aside class="agent-sidebar">
+          <div class="agent-side-title">Analytics Agent</div>
+          <div class="agent-side-sub">Ask anything about traffic, ads or search performance</div>
+          <div class="agent-chips-label">Suggested questions</div>
+          <button class="agent-chip" onclick="askSuggested(this)">How did our campaigns perform last 28 days?</button>
+          <button class="agent-chip" onclick="askSuggested(this)">Top organic search queries this month</button>
+          <button class="agent-chip" onclick="askSuggested(this)">Compare Meta vs Google ad spend</button>
+          <button class="agent-chip" onclick="askSuggested(this)">Which pages get the most traffic?</button>
+          <button class="agent-chip" onclick="askSuggested(this)">What's our cost per landing page view?</button>
+          <button class="agent-chip" onclick="askSuggested(this)">Top countries by sessions this week</button>
+          <div class="agent-side-note">Powered by Claude · Data from GA4, Search Console &amp; Ad Spend</div>
+        </aside>
+        <section class="agent-main">
+          <div class="agent-warn" id="agentWarn" style="display:none">⚠️ Configure the webhook URL in the script before using this tab</div>
+          <div class="agent-convo" id="agentConvo">
+            <div class="agent-empty" id="agentEmpty">👋 Ask a question about your analytics, or tap a suggestion on the left to get started.</div>
+          </div>
+          <div class="agent-input-area">
+            <textarea class="agent-textarea" id="agentInput" rows="1" placeholder="Ask a question about your analytics…"></textarea>
+            <button class="agent-send-btn" id="agentSendBtn" onclick="sendAgentMessage()">Send</button>
+          </div>
+        </section>
+      </div>
+    </div>
+
   </main>
   <footer class="footer">Japan Adventurer · GA4 Data API · Data reflects completed days only</footer>
 </div>
@@ -668,6 +803,9 @@
 // ── CONFIG ──────────────────────────────────────────────────────────────────
 const CLIENT_ID   = '745005965152-9v3k4p5sr1lv0eiva9sf26o7ltvcnmn9.apps.googleusercontent.com';
 const PROPERTY_ID = '497521458';
+
+// Analytics Agent — n8n webhook that fronts the Claude-powered AI agent.
+const AGENT_WEBHOOK = 'https://n8n.seichodigital.com/webhook/ja-analytics-agent';
 const SCOPE       = 'https://www.googleapis.com/auth/analytics.readonly https://www.googleapis.com/auth/spreadsheets.readonly https://www.googleapis.com/auth/webmasters.readonly';
 
 // Ad-spend source: Google Sheet with real ad-platform cost data (verified schema).
@@ -1810,12 +1948,228 @@ function renderGscTable(id, rows, label) {
   </tbody></table>`;
 }
 
+// ── ANALYTICS AGENT ───────────────────────────────────────────────────────────
+// One session id for the whole page life so the n8n agent keeps conversation memory.
+const AGENT_SESSION_ID = (typeof crypto !== 'undefined' && crypto.randomUUID)
+  ? crypto.randomUUID()
+  : 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, c => {
+      const r = Math.random() * 16 | 0; return (c === 'x' ? r : (r & 0x3 | 0x8)).toString(16);
+    });
+let agentBusy = false;
+
+function agentEscapeHtml(s) {
+  return String(s).replace(/[&<>"']/g, m => ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[m]));
+}
+
+function initAgent() {
+  if (window.marked) marked.setOptions({ gfm: true, breaks: true });
+  if (window.mermaid) { try { mermaid.initialize({ startOnLoad: false, theme: 'dark' }); } catch(e) {} }
+  // Placeholder-webhook guard: warn + block sending until configured.
+  if (AGENT_WEBHOOK.includes('YOUR_N8N_HOST')) {
+    const w = document.getElementById('agentWarn'); if (w) w.style.display = 'block';
+    const b = document.getElementById('agentSendBtn'); if (b) b.disabled = true;
+  }
+  const input = document.getElementById('agentInput');
+  if (input) {
+    input.addEventListener('input', autoGrowAgentInput);
+    input.addEventListener('keydown', e => {
+      if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendAgentMessage(); }
+    });
+  }
+}
+
+function autoGrowAgentInput() {
+  const input = document.getElementById('agentInput');
+  if (!input) return;
+  input.style.height = 'auto';
+  input.style.height = Math.min(input.scrollHeight, 96) + 'px';  // ~4 lines cap
+}
+
+function agentScrollToBottom() {
+  const c = document.getElementById('agentConvo');
+  if (c) c.scrollTop = c.scrollHeight;
+}
+
+function agentClearEmpty() {
+  const e = document.getElementById('agentEmpty');
+  if (e) e.remove();
+}
+
+function askSuggested(el) {
+  const input = document.getElementById('agentInput');
+  if (input) { input.value = el.textContent.trim(); autoGrowAgentInput(); }
+  sendAgentMessage();
+}
+
+function appendUserBubble(text) {
+  agentClearEmpty();
+  const convo = document.getElementById('agentConvo');
+  const wrap = document.createElement('div');
+  wrap.className = 'agent-msg user';
+  const bubble = document.createElement('div');
+  bubble.className = 'bubble user';
+  bubble.textContent = text;
+  wrap.appendChild(bubble);
+  convo.appendChild(wrap);
+  agentScrollToBottom();
+}
+
+function appendErrorBubble(msg) {
+  agentClearEmpty();
+  const convo = document.getElementById('agentConvo');
+  const wrap = document.createElement('div');
+  wrap.className = 'agent-msg bot';
+  const bubble = document.createElement('div');
+  bubble.className = 'bubble error';
+  bubble.textContent = msg;
+  wrap.appendChild(bubble);
+  convo.appendChild(wrap);
+  agentScrollToBottom();
+}
+
+function showAgentTyping() {
+  const convo = document.getElementById('agentConvo');
+  const wrap = document.createElement('div');
+  wrap.className = 'agent-msg bot';
+  wrap.id = 'agentTyping';
+  wrap.innerHTML = '<div class="bubble bot"><div class="typing"><span></span><span></span><span></span></div></div>';
+  convo.appendChild(wrap);
+  agentScrollToBottom();
+}
+function removeAgentTyping() {
+  const t = document.getElementById('agentTyping');
+  if (t) t.remove();
+}
+
+// Render markdown → rich HTML, upgrade tables to .data-table, run any mermaid blocks.
+function renderAgentMarkdown(container, md) {
+  let html;
+  try { html = window.marked ? marked.parse(md) : agentEscapeHtml(md).replace(/\n/g, '<br>'); }
+  catch { html = agentEscapeHtml(md).replace(/\n/g, '<br>'); }
+  container.innerHTML = html;
+
+  // Style markdown tables with the existing dashboard table class + horizontal scroll.
+  container.querySelectorAll('table').forEach(tbl => {
+    tbl.classList.add('data-table');
+    if (!tbl.parentElement.classList.contains('table-scroll')) {
+      const scroll = document.createElement('div');
+      scroll.className = 'table-scroll';
+      tbl.parentNode.insertBefore(scroll, tbl);
+      scroll.appendChild(tbl);
+    }
+  });
+
+  // Convert ```mermaid fenced blocks into diagrams.
+  const blocks = container.querySelectorAll('pre > code.language-mermaid');
+  if (blocks.length && window.mermaid) {
+    blocks.forEach(code => {
+      const div = document.createElement('div');
+      div.className = 'mermaid';
+      div.textContent = code.textContent;
+      const pre = code.parentElement;
+      pre.parentNode.replaceChild(div, pre);
+    });
+    try { mermaid.run({ nodes: container.querySelectorAll('.mermaid') }); }
+    catch (e) { console.error('mermaid render failed', e); }
+  }
+}
+
+function appendAgentAnswer(md, question) {
+  agentClearEmpty();
+  const convo = document.getElementById('agentConvo');
+  const wrap = document.createElement('div');
+  wrap.className = 'agent-msg bot';
+
+  const bubble = document.createElement('div');
+  bubble.className = 'bubble bot';
+  renderAgentMarkdown(bubble, md);
+  wrap.appendChild(bubble);
+
+  const actions = document.createElement('div');
+  actions.className = 'agent-actions';
+  const copyBtn = document.createElement('button');
+  copyBtn.className = 'agent-action-btn';
+  copyBtn.innerHTML = '📋 Copy';
+  copyBtn.onclick = () => copyAgentAnswer(copyBtn, md);
+  const dlBtn = document.createElement('button');
+  dlBtn.className = 'agent-action-btn';
+  dlBtn.innerHTML = '⬇ Download';
+  dlBtn.onclick = () => downloadAgentAnswer(md, question);
+  actions.appendChild(copyBtn);
+  actions.appendChild(dlBtn);
+  wrap.appendChild(actions);
+
+  convo.appendChild(wrap);
+  agentScrollToBottom();
+}
+
+function copyAgentAnswer(btn, text) {
+  navigator.clipboard.writeText(text).then(() => {
+    const prev = btn.innerHTML; btn.innerHTML = '✓ Copied';
+    setTimeout(() => { btn.innerHTML = prev; }, 1600);
+  }).catch(() => { btn.innerHTML = '✗ Failed'; });
+}
+
+function downloadAgentAnswer(text, question) {
+  const slug = (question || 'agent-answer').toLowerCase()
+    .replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '').slice(0, 60) || 'agent-answer';
+  const blob = new Blob([text], { type: 'text/markdown' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = `${slug}.md`;
+  document.body.appendChild(a); a.click(); a.remove();
+  URL.revokeObjectURL(url);
+}
+
+async function sendAgentMessage(preset) {
+  const input = document.getElementById('agentInput');
+  const text = (preset != null ? preset : (input ? input.value : '')).trim();
+  if (!text || agentBusy) return;
+  if (AGENT_WEBHOOK.includes('YOUR_N8N_HOST')) return;
+
+  appendUserBubble(text);
+  if (input) { input.value = ''; autoGrowAgentInput(); }
+
+  agentBusy = true;
+  const sendBtn = document.getElementById('agentSendBtn');
+  if (sendBtn) sendBtn.disabled = true;
+  if (input) input.disabled = true;
+  showAgentTyping();
+
+  try {
+    const res = await fetch(AGENT_WEBHOOK, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ message: text, sessionId: AGENT_SESSION_ID })
+    });
+    removeAgentTyping();
+    if (!res.ok) {
+      appendErrorBubble(`⚠ The agent returned an error (${res.status}). Please try again.`);
+    } else {
+      let data = await res.json().catch(() => null);
+      if (Array.isArray(data)) data = data[0];
+      const answer = data && (data.answer ?? data.output ?? data.text ?? data.message);
+      if (answer == null) appendErrorBubble('⚠ The agent returned an unexpected response.');
+      else appendAgentAnswer(String(answer), text);
+    }
+  } catch (err) {
+    removeAgentTyping();
+    appendErrorBubble('⚠ Could not reach the agent. Check your connection and try again.');
+    console.error(err);
+  } finally {
+    agentBusy = false;
+    if (sendBtn) sendBtn.disabled = false;
+    if (input) { input.disabled = false; input.focus(); }
+  }
+}
+
 // ── TAB SWITCHING ─────────────────────────────────────────────────────────────
 function switchTab(tab) {
   document.querySelectorAll('.tab-btn').forEach(b => b.classList.toggle('active', b.dataset.tab === tab));
   document.querySelectorAll('.tab-panel').forEach(p => p.classList.toggle('active', p.id === `tab-${tab}`));
   activeTab = tab;
-  if (tab !== 'addreport' && accessToken && Date.now() < tokenExpiry && !tabLoaded[tab]) {
+  // 'agent' is always ready (no date-range data fetch); 'addreport' loads on demand too.
+  if (tab !== 'addreport' && tab !== 'agent' && accessToken && Date.now() < tokenExpiry && !tabLoaded[tab]) {
     loadTab(tab);
   }
 }
@@ -1903,6 +2257,8 @@ window.addEventListener('load', () => {
   const t28 = new Date(today); t28.setDate(today.getDate()-28);
   document.getElementById('dateTo').value   = fmt(new Date(today.setDate(today.getDate()-1)));
   document.getElementById('dateFrom').value = fmt(t28);
+
+  initAgent();
 
   if (window.google?.accounts?.oauth2) initGIS();
   else {
